@@ -1,0 +1,23 @@
+IT_SORT -> Belirtilen kolona göre sıralayarak getiriyor.
+
+Çift tıklayıp sort'un type'ına bak. Table type _T_.
+
+TOP'a gidip yine sort'u da table olduğu için tanımlıyoruz.
+
+DATA: gt_sort TYPE (tablo type'ını yaz)
+      gs_sort TYPE (tablo type'ının structerı).
+
+DISPLAY ALV'de 
+
+it_sort = gt_sort
+
+
+gs_sort-spos (öncelik yenilemesi) = 1
+gs_sort-tabname = 'GT_LIST'.
+gs_sort-fieldname = ''(hangi kolona göre yapacaksak onu koyuyoruz)
+gs_sort-down = abap_true. (azalana göre sıralamak için)
+APPEND gs_sort TO gt_sort.
+
+artan için gs_sort-up = abap_true.
+
+iki kolunu da yapmak için gs_sort-spos = 2 yapıp ikinci olarak bakacağı özelliği belirtiyoruz ve işlemleri tekrarlıyoruz.

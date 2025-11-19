@@ -1,0 +1,27 @@
+I_CALLBACK ve IT_EVENTS aynı amaca hizmet ediyor ama farklı amaçları var.
+
+CALLBACKLERDE
+
+PF_STATUS_SET = gui status
+user_command = sy-ucomm üzerinden buton yakalama
+top_of_page = alv üstünde text
+
+callback_program = sy-repid
+
+EVENTSLERDE
+
+IT_EVENTS için bir data oluşturuyoruz.
+
+DATA OLUŞTURMA:
+1- alv fonksiyonuna gir ve it_eventsi bul
+2- ne referans verilmiş yanına onu kopyala
+3- data olarak gt_events diye internal table oluştur ve referansını yaz DATA: gt_events TYPE referans
+4- sonra structure oluştur structure'ı da referansın içine girip referansa ne referans verilmiş onu yapıştır.
+
+EVENTS'İ KULLANMAK İÇİN
+display alvden önce ama aynı formda
+
+gs_event-name = (slis_ev_ diye başlar ve gerisi callback gibi istediğin işlevi seç)
+gs_even-form = ' ' (form oluşturma mantığı var callback gibi form adını yazıyorsun)
+APPEND gs_event to gt_events.
+dedikten sonra internal table'a aktarılmış oluyor ve çalışıyor.

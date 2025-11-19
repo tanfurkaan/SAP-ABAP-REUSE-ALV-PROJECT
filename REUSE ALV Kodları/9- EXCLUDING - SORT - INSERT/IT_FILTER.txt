@@ -1,0 +1,16 @@
+IT_FILTER -> Filtrelemek için kullanılıyor.
+
+Filter'ın type'ına bak _T_ yazıyor yani table.
+
+DATA oluştur table ve structure olarak.
+
+it_filter = gt_filter
+
+display alv'de
+
+gs_filter-tabname = 'GT_LIST'.
+gs_lifter-fieldname = (hangi kolonu yapmak istiyorsak)
+gs_filter-sign0 = (Include mu Exclude mu)
+gs_filter-optio = (aralıksa between eşitse eq diyoruz filtre için)
+gs_filter-valuf_int = (filtrelemek istediğimiz değer)
+APPEND gs_filter to gt_filter.

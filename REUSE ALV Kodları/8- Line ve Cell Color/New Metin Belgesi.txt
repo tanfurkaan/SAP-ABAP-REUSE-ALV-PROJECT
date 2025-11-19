@@ -1,0 +1,24 @@
+Line color yatay bir düzlemde tüm line'ı boyuyor.
+Cell Color ise spesifik belirtilen alanları boyuyor.
+
+LINE COLOR eklemek için
+
+1-) Data belirleiğimiz kısıma girip bir veri tanımlıyoruz.
+
+line_color TYPE char4
+
+2-) Bunu alvde layout olarak kullanacağımızı belirtmek için layout'a gidiyoruz.
+
+gs_layout-info_fieldname = 'LINE_COLOR'.
+
+3-) Hangi line'ı boyamak istediğimize göre select kısmında yapacağız işlemimizi.
+
+LOOP AT gt_list INTO gs_list.
+IF gs_list-carrid eq '177'
+gs_list-line_color = 'C510'.
+MODIFY gt_list FROM gs_list.
+ELSEIF gs_list-carrid eq '290'
+gs_list-line_color = 'C710'.
+MODIFY gt_list FROM gs_list.
+ENDIF.
+ENDLOOP

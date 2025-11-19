@@ -1,0 +1,27 @@
+PF STATUS basit bir alv değil bizden beklediği parametreler var ve bunu belirtmessek uygulama çalışmaz çöker.
+
+Formunu oluşturduktan sonra yanına bir parametre belirtmemiz gerekiyor.
+
+FORM PF_STATUS_SET USING p_extab TYPE slis_t_extab . **Böyle bir type var ezbere.
+Eğer kendin oluşturmak istiyorsan screendeki gibi**
+set PF-STATUS ' '.
+Diye pf status oluşturuyoruz ve formun içine yazıyor sonra screendeki gibi ayarlıyoruz.
+
+**AMA SALV DE GUI STATUS KOPYALAMA DİYE BİR DURUM VAR
+
+SE38
+SAPLSALV
+Ağaç görüntüsünü açıyoruz
+GUI Status içine giriyoruz
+POP-UP için ve Normal SALV için hazır oluşturulmuş statusler var.
+Sağ tıklayıp copy diyoruz.
+A-)	Programımızın adını giriyoruz.
+Oluşturmak istediğimiz pf-status'ün ID'sini yazıyoruz aynı kalsa da olur.
+Copy'ye bas.
+Formun içinde SET PF-STATUS 'STANDARD'. yaz ve kullan
+
+**BUNU KOPYALAMANIN DAHA PRATİĞİ
+SE41
+SAPLSALV
+STANDARD
+YUKARDAKİ STATUS'E BAS VE YUKARDA ''A-)''dan sonra yaptıklarının aynısını yap.

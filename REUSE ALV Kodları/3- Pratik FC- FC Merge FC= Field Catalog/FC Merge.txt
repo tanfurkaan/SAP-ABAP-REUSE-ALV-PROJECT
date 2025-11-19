@@ -1,0 +1,56 @@
+Field Catalog yazdığımız yerleri silip yerine Pattern ile adı REUSE_ALV_FIELDCATALOG_MERGE olan fonksiyonu çağırıyorum.
+
+CALL FUNCTION 'REUSE_ALV_FIELDCATALOG_MERGE'
+* EXPORTING
+   I_PROGRAM_NAME               = (program adını yaz veya sy-repid yaz).
+*   I_INTERNAL_TABNAME           =
+*   I_STRUCTURE_NAME             =
+*   I_INCLNAME                   = (buna da sy-repid yaz).
+  CHANGING
+    ct_fieldcat                  = gt_fieldcatalog.
+
+gelen yeri üstteki şekilde düzenliyorum.
+
+ya internal_tabname'i kullanacağım ya da structure_name'yi kullanacağım.
+
+İNTERNAL TABLE İLE BAŞLAYALIM.
+
+CALL FUNCTION 'REUSE_ALV_FIELDCATALOG_MERGE'
+* EXPORTING
+   I_PROGRAM_NAME               = (program adını yaz veya sy-repid yaz).
+  I_INTERNAL_TABNAME           = 'GT_LIST'
+*   I_STRUCTURE_NAME             =
+*   I_INCLNAME                   = (buna da sy-repid yaz).
+  CHANGING
+    ct_fieldcat                  = gt_fieldcatalog.
+
+sonra data type'ı verdiğimiz top adlı include programına gidip dataları
+
+DATA: BEGIN OF gt_list occurs 0,
+         carrid   LIKE scarr-carrid,
+         carrname LIKE scarr-carrname,
+         fldate   LIKE sflight-fldate,
+         connid   LIKE sflight-connid,
+       END OF gt_list.
+
+bu şekilde yazacağız ve (*      gt_list TYPE TABLE OF gty_list.) bunu da sileceğiz.
+
+
+ŞİMDİ DE STRUCTURE_NAME 'Lİ YAPIYA BAKIYORUZ.
+
+BUNUN İÇİN SE11'DEN STRUCTURE OLUŞTURMAMIZ LAZIM PROGRAMI ESKİ HALE GETİRİYORUM.
+SE11'DE DATA TYPE BASIP İSİM GİRİP STRUCTURE BASIYORUM VE KOLONLARIMI ORAYA YAZIYORUM TEK TEK.
+Component'e kolon adını, component type'a da kolonun data elementini yazıyorum.
+
+en sonda da
+
+CALL FUNCTION 'REUSE_ALV_FIELDCATALOG_MERGE'
+* EXPORTING
+   I_PROGRAM_NAME               = (program adını yaz veya sy-repid yaz).
+*  I_INTERNAL_TABNAME           =
+   I_STRUCTURE_NAME             = (buraya structure adını yapıştırıyorum)
+*   I_INCLNAME                   = (buna da sy-repid yaz).
+  CHANGING
+    ct_fieldcat                  = gt_fieldcatalog.
+
+böyle yapıp bitiriyorum.

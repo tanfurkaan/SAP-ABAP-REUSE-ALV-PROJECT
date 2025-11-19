@@ -1,0 +1,55 @@
+Perform ile form yapımızı kuruyoruz.
+Bu parametre tanımlama ile çalışıyor pfstatusdeki gibi.
+
+FORM user_command USING p_ucomm TYPE sy-ucomm
+ 			ps_selfield TYPE slis_selfield.
+
+ENDFORM.
+
+P_ucomm function code'u tutuyor. PS_SELFIELD ise kolon ve row bilgini tutuyor.
+Doubleclick fc'de değişiklik yapmadan kullanılıyor. Hotspot tanımlayınca tekclick yapınca çalışıyor.
+
+CASE p_ucomm.
+ 	WHEN '&MSG'.
+    MESSAGE 'Mesaj Bas butonuna basıldı'.
+ 	WHEN '&IC1'.
+    MESSAGE 'Doubleclick active'.
+ENDCASE.
+
+Hotspot oluştururken fieldcatalog kısmına gidip
+
+p_hotspot ifadesini veriyoruz ve alta
+
+gs_fieldcatolog-hotspot = p_hotspot. ifaesini koyuyoruz ve hotspot özelliği olmasını istediğimiz kolona 'X' veriyoruz set_fc kısmında.
+
+ÇOKLU SATIR SEÇME ÖZELLİĞİ
+
+Fieldcatalog'a bir karakterli alan ekleyeceğiz ve layout'da tanımlayacağız seçim alanı diyerek ve usercommandın içerisinde de o o alanın xlenmiş satırları seçilmiştir diyeceğiz.
+
+Data kısmına girip
+
+selkz TYPE char1 ekleyeceğiz.
+
+set_layout kısmına girip
+gs_Layout_box_fieldname = 'SELKZ'.
+
+AMA HATA VERECEK ÇÜNKÜ SELECT SEÇTİĞİMİZ KOLON SAYISIYLA EKLEDİĞİMİZ KOLON SAYISI AYNI DEĞİL
+Select kısmına girip kolon kısmına göre select atmasını yapıyoruz.
+
+SELECT'DE
+
+INTO TABLE gt_list yerine INTO CORRESPONDING FIELDS OF TABLE gt_list yazıyoruz.
+
+KAÇ TANE SATIR SEÇİLDİ VERİSİNİ YAKALAMAK İÇİN.
+USER COMMAND'A GİDİP
+DATA: lv_ind TYPE numc2.
+
+WHEN '&MSG'.
+LOOP AT gt_list INTO gs_list where selkz eq 'X'.
+lv_ind = lv_ind + 1.
+ENDLOOP.
+CONCATENATE lv_ind
+ 	    'sayı kadar satır secildi'
+ 	    INTO lv_mes
+ 	    SEPARATED BY space.
+MESSAGE lv_mes TYPE 'I'.

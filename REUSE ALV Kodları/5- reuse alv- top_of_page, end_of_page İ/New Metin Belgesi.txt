@@ -1,0 +1,57 @@
+Event oluşturduktan sonra top_of_page ve end_of_page oluştururken form içinde yine bir table oluşturmamız lazım sonra o table'i yine form içindeki table'a atıp
+'REUSE_ALV_COMMENTARY_WRITE' adlı fonksiyonu çağırıp o fonksiyona tablomuzu girmemiz lazım öyle çalışıyor.
+
+Örnek:
+
+EVENT OLUŞTURMAK İÇİN REUSE ALV DISPLAY FORMUNDA
+  gs_event-name = slis_ev_top_of_page.
+  gs_event-form = 'TOP_OF_PAGE'.
+  APPEND gs_event TO gt_events.
+
+Oluşturduğumuz event formunda
+DATA: lt_header TYPE slis_t_listheader,
+        ls_header TYPE slis_listheader.
+DATA: lv_date TYPE char10.
+  DATA: lv_lines TYPE i,
+        lv_lines_c TYPE char10.
+
+
+headerda başlık atmak için
+CLEAR: ls_header.
+  ls_header-typ = 'H'.
+  ls_header-info = 'Havaalanı Ucak Takip Listesi'.
+  APPEND ls_header TO lt_header.
+headerda alt başlık atmak için
+
+  CLEAR: ls_header.
+  ls_header-typ = 'S'.
+  ls_header-key = 'Tarih'.
+* ls_header-info = '14.09.2025'.
+  CONCATENATE sy-datum+6(2)
+              '.'
+               sy-datum+4(2)
+               '.'
+               sy-datum+0(4)
+               INTO lv_date.
+  ls_header-info = lv_date.
+  APPEND ls_header TO lt_header.
+CONCATENATE: bir yapıyı parçalayıp kullanmak için
+headerda kaç satır data olduğunu çekmek için
+     CLEAR: ls\_header.
+
+   DESCRIBE TABLE gt_list LINES lv_lines.
+  lv_lines_c = lv_lines.
+
+  ls_header-typ = 'A'.
+  CONCATENATE 'Bu rapor'
+                lv_lines_c
+              'satırdan olusmakta.'
+              INTO ls_header-info
+              SEPARATED BY space.
+APPEND ls_header to lt_header.
+
+EVENT'İ DIŞARI ÇIKARTMAK İÇİN
+
+  CALL FUNCTION 'REUSE_ALV_COMMENTARY_WRITE'
+    EXPORTING
+      it_list_commentary = lt_header.

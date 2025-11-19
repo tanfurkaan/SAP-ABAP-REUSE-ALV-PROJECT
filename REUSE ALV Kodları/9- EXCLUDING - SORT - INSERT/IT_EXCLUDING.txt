@@ -1,0 +1,18 @@
+IT_EXCLUDING -> yukardaki görünmesini istemediğimiz gui status butonlarını gizlemeye yarıyor.
+
+Daha önceden yüklediğimiz pf_statüs'ü gizle.
+
+IT dediği için internal table olduğunu anlıyoruz ve alv içine girip referans aldığı table'ı kopyalıyoruz.
+TOP'a gidip tanımlıyoruz.
+
+DATA: gt_exclude TYPE (table'ı kopyala),
+      gs_exclude TYPE (table'ın structerini yapıştır).
+
+Kaldıracağımız butonun fc'sine bakmak için programda tıkla ve f1'e bas.
+
+DISPLAY ALV'de
+
+gs_exclude-fcode = '(function code'u yaz)'
+APPEND gs_exclude TO gt_exclude.
+
+Hepsi için tek tek giriş yapıyoruz IT_EXCLUDING için.

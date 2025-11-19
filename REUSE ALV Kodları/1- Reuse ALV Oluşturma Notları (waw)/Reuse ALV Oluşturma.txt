@@ -1,0 +1,8 @@
+Reuse ALV oluştururken Pattern'e basıp grid alv oluşturmak istiyorsak fonksiyon çağırma kısmına 'REUSE_ALV_GRID_DISPLAY' yazıp çağırıyoruz.
+
+is_layout=
+it_fieldcat=
+
+t_outtab=
+
+bu kısımları reuse alv'de fieldcatalog ve layout için ve internaltable'i alvye bağlamak için kullanıyoruz.
