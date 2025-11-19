@@ -1,0 +1,80 @@
+REUSE ALV Fonksiyon şeklinde çalışır ve çağırmak için ÖRNEK/PATTERN seçeneğine basarız. (GRİD ile başlıyoruz).
+-REUSE_ALV_GRID_DISPLAY.
+
+1-*RAMDEKİ TABLE'DAKİ İSTEDİĞİM KOLONLARI İNTERNAL TYPEA ATIP HEPSİNE TYPE VERİP SONRA BUNLARI İNTERNAL LİST'E ATIYORUM
+
+TYPES: BEGIN OF gty_list,
+  CARRID TYPE S_CARR_ID,
+  CARRNAME TYPE S_CARRNAME,
+  FLDATE TYPE S_DATE,
+  CONNID TYPE S_CONN_ID,
+    END OF gty_list.
+
+  DATA: gt_list TYPE TABLE OF gty_list,
+        gs_list TYPE gty_list.
+
+3-FİELD CATOLOG OLUŞTURUYORUZ. (ilk type'ı fonksiyon içinden structeri ise internal table oluşturduğum type'dan)
+
+DATA: gt_fieldcatolog TYPE SLIS_T_FIELDCAT_ALV,
+      gs_fieldcatolog TYPE slis_fieldcat_alv.
+
+
+
+START-OF-SELECTION.
+
+
+2-*BURAYA DA INTERNAL TABLE'A SORGULARI ATIP VERİ ALMASINI SAĞLIYORUM
+
+SELECT
+ SCARR~CARRID
+ SCARR~CARRNAME
+ SFLIGHT~FLDATE
+ SFLIGHT~CONNID
+  FROM SCARR
+  INNER JOIN SFLIGHT on SFLIGHT~CARRID eq SCARR~CARRID
+  INTO TABLE gt_list.
+
+4- FİELD CATOLOGDA FİELD NAME OLUŞTURUP FİELD NAME'E KOLONU VERİP BUNU APPEND İLE GT_FİELDCATOLOG'A ATIYORUZ ALVDE GÖSTERMESİ İÇİN. (BÜTÜN KOLONLARI TEK TEK YAPIYORUZ)
+
+CLEAR: gs_fieldcatolog.
+  gs_fieldcatolog-fieldname = 'CARRID'.
+-------------------------
+  APPEND gs_fieldcatolog TO gt_fieldcatolog.
+
+  CLEAR: gs_fieldcatolog.
+  gs_fieldcatolog-fieldname = 'CARRNAME'.
+----------------------
+  APPEND gs_fieldcatolog TO gt_fieldcatolog.
+
+CLEAR: gs_fieldcatolog.
+  gs_fieldcatolog-fieldname = 'FLDATE'.
+---------------------
+ APPEND gs_fieldcatolog TO gt_fieldcatolog.
+
+CLEAR: gs_fieldcatolog.
+  gs_fieldcatolog-fieldname = 'CONNID'.
+---------------------
+  APPEND gs_fieldcatolog TO gt_fieldcatolog.
+
+5- bu kolonların özellikleri ile oynayabiliyoruz ------ koyduğum yerlerde ve örnek özellik oynamaları
+
+gs_fieldcatolog-seltext_s =
+gs_fieldcatolog-seltext_m = (Kolon ismi ayarlama)
+gs_fieldcatolog-seltext_l =
+
+gs_fieldcatolog-key = abap_true (Kolonun Key alanı olduğunu gösteren özel renk)
+gs_fieldcatolog-col_pos = 0-1-2-3 (Kolonların sırasını vermeye yarıyor).
+gs_fieldcatalog-outputlen = (Kolonların genişliğini belirlemek için)
+gs_fieldcatolog-edit = abap_true (editlemeyi açmak için)
+gs_fieldcatalog-hotspot = abap_true (kolonu açıp tıklamak için)
+gs_fieldcatalog-do_sum = abap_true (sayısal kolun alt alta toplamak için)
+
+
+6- LAYOUT İLE GENEL ALV'NİN YAPISI İLE ALAKALI ÖZELLİKLERİ DEĞİŞTİRİYORUZ LAYOUT OLUŞTURMA
+
+DATA: gs_layout TYPE SLIS_LAYOUT_ALV. (DATA KISMINA YAZIYORUZ BUNU)
+
+gs_layout-window_titlebar = (Title bardaki yazıyı değiştirmek)
+gs_layout-zebra = abap_true. (zebra görünütüsü)
+gs_layout-colwidth_optimize = abap_true (otomatik genişlik ayarlattırma)
+gs_layout-edit = abap_true (tüm kolonların editini açıyor)
